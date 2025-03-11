@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
+const User = require('./user.model');
 
 const Project = sequelize.define('proyectos', {
     id: { type: DataTypes.INTEGER, primarykey:true, autoIncrement: true},
@@ -9,12 +10,19 @@ const Project = sequelize.define('proyectos', {
     administrador_id: {
         type: DataTypes.INTEGER,
         allowNull: false,     
-        references: { model: 'usuarios', key: 'id' },
+        references: { model: User, key: 'id' },
         onDelete: 'CASACADE'
     },
 }, {
     timestamps: false,
     tableName: 'proyectos',
+    hooks: {
+        afterCreate: (project, options) => {
+            if(project.fecha_creacion) {
+                project.fecha_creacion.setHours(project.fecha_creacion.getHours() - 5);
+            }
+        }
+    }
 });
 
 module.exports = Project;

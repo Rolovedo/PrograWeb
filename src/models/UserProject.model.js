@@ -1,12 +1,24 @@
-const User = require('./use.model');
+const { DataTypes } = require('sequelize');
+const sequelize = require('../config/db');
+const User = require('./user.model');
 const Project = require('./project.model');
-const UserProject = require('./UserProject.model');
 
-//Relaciones muchos a muchos
-User.belongsToMany(Project, { through: UserProject, foreignkey: 'usuario_id', as: 'proyectos'});
-Project.belongsToMany(User, { through: UserProject, foreignkey: 'proyecto_id', as: 'usuarios'});
+const UserProject = sequelize.define('usuarios_proyectos', {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    usuario_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: { model: User, key: 'id' },
+    },
+    proyecto_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: { model: Project, key: 'id' },
+    }
+}, {
+    timestamps: false,
+    tableName: 'usuarios_proyectos',
+    indexes: [{ unique: true, fields: ['usuario_id', 'proyecto_id'] }]
+});
 
-//Relacion de administrador
-Project,belongsTo(User, { foreignkey: 'administrador_id', as: 'administrador'});
-
-module.exports = { User, Project, UserProject };
+module.exports = UserProject;
