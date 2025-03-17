@@ -1,6 +1,6 @@
-const dotenv = require('dontev');
+const dotenv = require('dotenv');
 
-dontev.config();
+dotenv.config();
 
 modeule.exports = {
     PORT: process.env.PORT,
