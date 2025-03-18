@@ -23,24 +23,29 @@ exports.createProject = async (nombre, descripcion, administrador_id) => {
 
 //Se usa el async para que sea asincrona y usar el await
 //Se usa para listar los proyectos vinculados al administrador 
-exports.getAllProjectsByAdministradorId = async (administrador_id, nombre) => {
+exports.getAllProjects = async () => {
     try {
-        //Se usa como condicion de busqueda en la base de datos
-        const whereClause = { administrador_id };
-        if (nombre) {
-            //Hace que la consulta sea más específica
-            whereClause.nombre = nombre; //Se busca si el parametro nombre fue proporcionado
-        }
-        
-        //Se usa una consulta con el modelo Project
-        const projects = await Project.findAll({ where: whereClause });
-        return projects;
-    } 
-    //Se finaliza con el manejo de errores si algo falla en la consulta
-    catch (err) {
-        throw new Error(`Error al obtener los proyectos: ${err.message}`)
+      const projects = await Project.findAll({
+        include: [
+          {
+            model: User,
+            as: 'administrador', // Relación con el usuario administrador del proyecto
+            attributes: ['id', 'nombre'] // Solo se incluyen estos atributos
+          },
+          {
+            model: User,
+            as: 'usuarios', // Relación con los usuarios del proyecto
+            attributes: ['id', 'nombre', 'email'], // Atributos específicos a incluir
+            through: { attributes: [] } // No se incluyen atributos de la tabla intermedia
+          }
+        ]
+      });
+  
+      return projects; // Retorna la lista de proyectos obtenidos
+    } catch (err) {
+      throw new Error(`Error al obtener los proyectos: ${err.message}`);
     }
-};
+  };
 
 //Se busca un proyecto específico por su ID
 exports.getProjectById = async (id, admin_from_token) => {
