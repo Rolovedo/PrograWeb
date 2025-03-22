@@ -31,3 +31,5 @@ const checkRole = (roles) => {
         next();
     };
 };
+
+module.exports = { authenticateToken, checkRole };

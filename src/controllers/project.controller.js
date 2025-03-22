@@ -1,5 +1,54 @@
 const projectService = require('../services/project.services');
 
+// Asigna usuarios a un proyecto específico
+exports.assignUserToProject = async (req, res) => {
+    try {
+        const { projectId, userIds } = req.body;
+        
+        // Preparamos los datos para el servicio
+        const data = {
+            projectId: projectId,
+            userIds: userIds
+        };
+        
+        // Llamamos al servicio para asignar usuarios al proyecto
+        const updatedProject = await projectService.assignUserToProject(data);
+        
+        // Respondemos con el proyecto actualizado
+        res.status(200).json({ 
+            message: 'Usuarios asignados al proyecto con éxito', 
+            project: updatedProject 
+        });
+    } catch (err) {
+        // Manejo de errores
+        res.status(500).json({ message: err.message });
+    }
+};
+
+// Elimina un usuario de un proyecto específico
+exports.removeUserFromProject = async (req, res) => {
+    try {
+        const { projectId, userId } = req.body;
+        
+        // Preparamos los datos para el servicio
+        const data = {
+            projectId: projectId,
+            userId: userId
+        };
+        
+        // Llamamos al servicio para eliminar el usuario del proyecto
+        await projectService.removeUserFromProject(data);
+        
+        // Respondemos con mensaje de éxito
+        res.status(200).json({ 
+            message: 'Usuario eliminado del proyecto con éxito'
+        });
+    } catch (err) {
+        // Manejo de errores
+        res.status(500).json({ message: err.message });
+    }
+};
+
 exports.createProject = async (req, res) => {
     try {
         //Hacemos la primera validacion
