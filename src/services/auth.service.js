@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken'); //Se importa jwt con jsonwebtoken, permite encriptar contraseñas (Autenticaciones)
-const bcrypt = require('bcryptjs'); //Es necesario para las incursiones del password
-const dontev = require('dontev'); //Para las variables de entorno
+const bcrypt = require('bcrypt'); //Es necesario para las incursiones del password
+const dontev = require('dotenv'); //Para las variables de entorno
 const User = require('../models/user.model'); //Se importa el modelo user
 const RolePermission = require('../models/rolePermission.model'); //Se importa el modelo rolepermission
 

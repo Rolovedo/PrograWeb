@@ -1,15 +1,18 @@
-const sequelize = require('./config/db');
 const app = require('./app');
-const dotenv = require('dontev');
+const sequelize = require('./config/db');
+const dotenv = require('dotenv');
 require('./models/associations');
 
-dontev.config();
+dotenv.config();
 
+const PORT = process.env.PORT || 3000;
+
+// Conectarse a la base de datos
 sequelize.authenticate()
     .then(() => {
-        console.log('Conectando a PostgreSQL con sequalize');
-        app.listen(prompt, () => {
-            console.log('Servidor corriendo en http://localhost:${PORT}');
+        console.log('Conectado a PostgreSQL con Sequelize');
+        app.listen(PORT, () => {
+            console.log(`Servidor corriendo en http://localhost:${PORT}`);
         });
     })
     .catch(err => console.error('Error conectando a la base de datos:', err));

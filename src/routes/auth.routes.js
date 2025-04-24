@@ -1,6 +1,6 @@
-const express = require('espress');
+const express = require('express');
 const router = express.Router();
-const authController = require('../controller/auth.controller'); //Requiere el auth.controller de controllers
+const authController = require('../controllers/auth.controller'); //Requiere el auth.controller de controllers
 
 //Lo usa para postear el email y password que se genera en el auth.service en services
 router.post('/auth/login', authController.login);

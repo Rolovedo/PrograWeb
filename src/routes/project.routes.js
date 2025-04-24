@@ -20,8 +20,8 @@ router.delete('/projects/delete/:id', authenticateToken, checkRole([ROLES.ADMIN]
 //También se obtiene un proyecto específico por su id (Quinto método get)
 router.get('/projects/:id', authenticateToken, checkRole([ROLES.ADMIN, ROLES.USER]), projectController.getProjectById);
 
-router.post('/projects/associate', authenticateToken, checkRole([ROLES.ADMIN]), projectController.assigUsersToProject);
-router.delete('/pojects/disassociate', authenticateToken, checkRole([ROLES.ADMIN]), projectController.removeUserToProject)
+router.post('/projects/associate', authenticateToken, checkRole([ROLES.ADMIN]), projectController.assignUserToProject);
+router.delete('/projects/disassociate', authenticateToken, checkRole([ROLES.ADMIN]), projectController.removeUserFromProject)
 
 
 module.exports = router;
