@@ -12,7 +12,7 @@ const ROLES = require('../utils/constants');
 //Se genera la autenticación, y el checkeo de si el usuario es administrador
 router.post('/projects/create', authenticateToken, checkRole([ROLES.ADMIN]), projectController.createProject);
 //Se le pasa el id del proyecto como parámetro (Segundo método update o put)
-router.put('/projects/update', authenticateToken, checkRole([ROLES.ADMIN]), projectController.updateProject);
+router.put('/projects/update/:id', authenticateToken, checkRole([ROLES.ADMIN]), projectController.updateProject);
 //Obtiene todos los proyectos administrados por un administrador (Tercer método get)
 router.get('/projects', authenticateToken, checkRole([ROLES.ADMIN, ROLES.USER]), projectController.getAllProjectsByAdministradorId);
 //Similar al update y se le pasa el id del proyecto como parámetro (Cuarto método delete)

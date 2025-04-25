@@ -45,7 +45,7 @@ exports.getAllUsersByRolId = async (req, res) => {
         const users = await userService.getAllUsersByRolId(req.params.id);
 
         //Nos devuelve un mensaje de confirmacion con la lista de los usuarios .json
-        req.status(200).json({ message: 'Usuarios consultados con éxito', users });
+        res.status(200).json({ message: 'Usuarios consultados con éxito', users });
     } 
 
     //Mensaje de error por si algo sale mal

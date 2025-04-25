@@ -2,7 +2,7 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-modeule.exports = {
+module.exports = {
     PORT: process.env.PORT,
     DB_NAME: process.env.DB_NAME,
     DB_USER: process.env.DB_USER,

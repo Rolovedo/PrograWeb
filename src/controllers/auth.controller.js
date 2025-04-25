@@ -14,7 +14,7 @@ exports.login = async (req, res) => {
 exports.createUser = async (req, res) => {
     const { nombre, email, password, rol_id, administrador_id } = req.body;
     try {
-        const user = await authServices.createUser(nombre, email, password, rol_id, administrador_id);
+        const user = await authService.createUser(nombre, email, password, rol_id, administrador_id);
         res.status(201).json({ message: 'Usuario creado exitosamente', user });
     } catch (err) {
         res.status(400).json({ message: err.message });

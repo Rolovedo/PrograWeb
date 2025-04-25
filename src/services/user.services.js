@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 
 exports.createUser = async (nombre, email, password, rol_id, administrador_id) => {
     try {
-        const userExists = await User.finOne({ where: { email } });
+        const userExists = await User.findOne({ where: { email } });
         if(userExists) {
             throw new Error('El usuario ya existe');
         }

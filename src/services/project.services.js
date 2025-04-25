@@ -2,10 +2,10 @@ const Project = require('../models/project.model');
 const User = require('../models/user.model');
 
 exports.assignUserToProject = async (data) => {
-    const project  = await Project.findByPk(data.project);
+    const project  = await Project.findByPk(data.projectId);
     if (!project) throw new Error('Proyecto no encontrado');
 
-    const users = await User.findAll({ ehre: { id: data.userIds } });
+    const users = await User.findAll({ where: { id: data.userIds } });
     if (users.length !== data.userIds.length) throw new Error('Algunos usuarios no fueron encontrados');
 
     await project.addUsuarios(users);
