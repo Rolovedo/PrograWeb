@@ -2,27 +2,29 @@ const Project = require('../models/project.model');
 const User = require('../models/user.model');
 
 exports.assignUserToProject = async (data) => {
-    const project  = await Project.findByPk(data.projectId);
+    const project = await Project.findByPk(data.projectId);
     if (!project) throw new Error('Proyecto no encontrado');
 
     const users = await User.findAll({ where: { id: data.userIds } });
     if (users.length !== data.userIds.length) throw new Error('Algunos usuarios no fueron encontrados');
 
     await project.addUsuarios(users);
-    return await project.findByPk(data.projectId, {
+
+    return await Project.findByPk(data.projectId, {
         include: [
             {
                 model: User,
                 as: 'usuarios',
-                attributes: ['id, nombre, email'],
-                through: { attributes: []}
+                attributes: ['id', 'nombre', 'email'], // Corrección en los atributos
+                through: { attributes: [] }
             }
-        ],
+        ]
     });
 };
 
+
 exports.removeUserFromProject = async (data) => {
-    const project = await Project.findByPk(data.prjectId);
+    const project = await Project.findByPk(data.projectId);
     if (!project) throw new Error('Proyecto no encontrado');
 
     const user = await User.findByPk(data.userId);
@@ -177,5 +179,38 @@ exports.deleteProject = async (id, admin_from_token) => {
     //En caso de existir error se va al manejo de errores
     catch (err) {
         throw new Error(`Error al eliminar el proyecto: ${err.message}`);
+    }
+};
+
+exports.getAllProjectsByAdministradorId = async (adminId, nombre) => {
+    try {
+        const whereClause = {
+            administrador_id: adminId
+        };
+
+        if (nombre) {
+            whereClause.nombre = nombre;
+        }
+
+        const projects = await Project.findAll({
+            where: whereClause,
+            include: [
+                {
+                    model: User,
+                    as: 'administrador',
+                    attributes: ['id', 'nombre']
+                },
+                {
+                    model: User,
+                    as: 'usuarios',
+                    attributes: ['id', 'nombre', 'email'],
+                    through: { attributes: [] }
+                }
+            ]
+        });
+
+        return projects;
+    } catch (err) {
+        throw new Error(`Error al obtener los proyectos del administrador: ${err.message}`);
     }
 };

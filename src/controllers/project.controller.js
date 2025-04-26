@@ -80,6 +80,7 @@ exports.getAllProjectsByAdministradorId = async (req, res) => {
     }
     //Al final siempre el manejo de errores si algo paso mal 
     catch (error) {
+        console.error('ERROR AL OBTENER PROYECTOS:', error); // <-- esto te da el detalle real
         res.status(500).json({ message: 'Error al obtener los proyectos', error });
     }
 };
