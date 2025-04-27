@@ -54,3 +54,11 @@ foreign key (rol_id) references roles(id) on delete cascade,
 foreign key (permiso_id) references permisos(id) on delete cascade,
 unique (rol_id, permiso_id)
 );
+
+-- 8 Insertar valores a la tabla roles
+INSERT INTO roles (nombre) VALUES ('Administrador');
+insert into roles (id, nombre) values (2, 'Usuario');
+
+-- 9 Insertar el usuario con rol de adiminstrador
+INSERT INTO usuarios (nombre, email, password, rol_id, administrador_id)
+VALUES ('Samuel Acevedo', 'acevedo314848@gmail.com', '$2b$10$fjqIY8mQqLFxmtUuC0B5XOPOK.m02YGToqOb6JzccP5YxuAiOO0XS', 1, NULL);
